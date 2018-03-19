@@ -1,7 +1,7 @@
 import requests
-import models
+# import models
 
-models.clear_tables()
+# models.clear_tables()
 
 users = {
     'Akande': {
@@ -32,7 +32,7 @@ users = {
 }
 
 headers = {'Content-Type': 'application/json'}
-host = 'http://127.0.0.1:4000'
+host = 'http://localhost'
 
 user_db = {}
 for k,v in users.items():

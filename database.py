@@ -1,10 +1,19 @@
 from sqlalchemy import create_engine, exc, event, select
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+import config
 
 Base = declarative_base()
-engine = create_engine('mysql+mysqlconnector://root:password@localhost:3306/raw_ta')
 
+db_config = 'mysql+mysqlconnector://{}:{}@{}:{}/{}'.format(
+    config.db_user,
+    config.db_password,
+    config.db_host,
+    config.db_port,
+    config.db_name
+)
+
+engine = create_engine(db_config)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                 autoflush=False,
                                 bind=engine))

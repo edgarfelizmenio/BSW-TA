@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from database import db_session, Base, engine
 
 from crypto_config import *
+import config
 
 class User(Base):
     __tablename__ = 'User'
