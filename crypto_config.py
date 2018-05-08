@@ -27,4 +27,10 @@ else:
         master_key = json.load(master_key_file)
         pk_string = master_key['pk']
         mk_string = master_key['mk']
+        pk = bytesToObject(pk_string.encode('utf-8'), group_object)
+        mk = bytesToObject(mk_string.encode('utf-8'), group_object)
+
+
+print(pk_string)
+print(mk_string)
 
