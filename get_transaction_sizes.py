@@ -2,11 +2,8 @@ import mysql.connector
 
 querystring = """
     SELECT (user.size + attribute.size) as transaction_size FROM
-    (SELECT user_id, (
-    LENGTH(user_id) +
-    IFNULL(LENGTH(first_name), 0) +
-    IFNULL(LENGTH(last_name), 0)
-    ) AS size FROM User) as user JOIN
+    (SELECT user_id, LENGTH(user_id)
+    AS size FROM User) as user JOIN
     (SELECT user_id, SUM(
             LENGTH(attribute_id) +
             IFNULL(LENGTH(user_id), 0) +
