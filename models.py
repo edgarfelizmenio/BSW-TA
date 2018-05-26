@@ -9,8 +9,6 @@ import config
 class User(Base):
     __tablename__ = 'User'
     user_id = Column(Integer, primary_key = True)
-    first_name = Column(String(50))
-    last_name = Column(String(50))
     attributes = relationship("Attribute")
 
 class Attribute(Base):
@@ -40,12 +38,7 @@ def get_one_time_key(user_id):
         }
 
 def add_user(data):
-    if 'first_name' not in data and 'last_name' not in data:
-        return None
-    user = User(
-        first_name = data['first_name'],
-        last_name = data['last_name']
-    )
+    user = User()
     db_session.add(user)
     db_session.flush()
 
@@ -71,8 +64,6 @@ def get_user(user_id):
     else:
         user_object = {
             'user_id': result.user_id,
-            'first_name': result.first_name,
-            'last_name': result.last_name
         }
         attributes = []
         for attribute_result in result.attributes:
@@ -86,8 +77,6 @@ def update_user(user_id, data):
     if result is None:
         return None
     else:
-        result.first_name = data.get('first_name', result.first_name)
-        result.last_name = data.get('last_name', result.last_name)
         db_session.flush()
         
         # delete all existing attributes
@@ -110,10 +99,10 @@ def update_user(user_id, data):
     return {
         'user_id': result.user_id,
         'private_key': private_key
-     }
+    }
 
 def generate_key(user, attributes):
-    attribute_set = [str(user.user_id), user.first_name, user.last_name] + attributes
+    attribute_set = attributes
     secret_key = hybrid_abe.keygen(pk, mk, attribute_set)
     sk_bytes = objectToBytes(secret_key, group_object)
     return str(sk_bytes, 'utf-8')
